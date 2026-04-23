@@ -79,7 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action']) && in_array(
 if (isset($_GET['delete'])) {
     $id = $_GET['delete'];
     try {
-        $pdo->prepare("DELETE FROM classes WHERE id = ?")->execute([$id]);
+        $pdo->prepare("DELETE FROM classes WHERE id = ? AND center_id = ?")->execute([$id, $_SESSION['center_id']]);
         $message = "Class deleted successfully.";
     } catch (Exception $e) { $error = "Failed to delete: " . $e->getMessage(); }
 }

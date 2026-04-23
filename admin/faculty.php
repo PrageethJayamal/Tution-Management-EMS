@@ -33,6 +33,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action']) && $_POST['a
     $phone = trim($_POST['phone']);
     $new_password = $_POST['new_password'] ?? '';
 
+    // IDOR Mitigation Pipeline
+    $auth_check = $pdo->prepare("SELECT u.center_id FROM faculty f JOIN users u ON f.user_id = u.id WHERE f.id = ?");
+    $auth_check->execute([$id]);
+    if ($auth_check->fetchColumn() != $_SESSION['center_id']) {
+        die("<div style='font-family: sans-serif; padding: 20px; background: #fef2f2; color: #991b1b; border: 1px solid #f87171; border-radius: 8px;'><strong>Security Fault (IDOR):</strong> Unauthorized Data Manipulation Blocked. Cross-tenant destruction array terminated.</div>");
+    }
+
     try {
         $pdo->beginTransaction();
         $pdo->prepare("UPDATE faculty SET first_name = ?, last_name = ?, email = ?, phone = ? WHERE id = ?")
