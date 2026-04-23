@@ -5,3 +5,6 @@ assets/uploads/profiles/*
 # Ignore macOS/Windows system files
 .DS_Store
 Thumbs.db
+
+# Documentation explicitly held back for local reference only
+docs/
