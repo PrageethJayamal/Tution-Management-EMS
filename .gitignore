@@ -1,0 +1,7 @@
+# Ignore user uploaded images to prevent repository bloating
+assets/uploads/profiles/*
+!assets/uploads/profiles/.gitkeep
+
+# Ignore macOS/Windows system files
+.DS_Store
+Thumbs.db
