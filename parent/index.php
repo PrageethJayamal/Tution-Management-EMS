@@ -5,7 +5,7 @@ require_once '../includes/header.php';
 if ($_SESSION['role'] !== 'parent') die("<div class='alert alert-error'>Access Denied</div>");
 
 $user_id = $_SESSION['user_id'];
-$stmt = $pdo->prepare("SELECT id, first_name, last_name FROM parents WHERE user_id = ?");
+$stmt = $pdo->prepare("SELECT * FROM parents WHERE user_id = ?");
 $stmt->execute([$user_id]);
 $parent = $stmt->fetch();
 $parent_id = $parent['id'] ?? 0;
@@ -23,7 +23,21 @@ $notices = $notices->fetchAll();
 
 <div class="card">
     <div class="card-header">Parent Dashboard</div>
-    <p>Welcome, <?php echo htmlspecialchars($parent['first_name'] . ' ' . $parent['last_name']); ?>.</p>
+    
+    <div style="display: flex; gap: 20px; align-items: center; margin-bottom: 20px;">
+        <?php if (!empty($parent['profile_photo'])): ?>
+            <img src="../<?php echo htmlspecialchars($parent['profile_photo']); ?>" alt="Avatar" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 3px solid var(--border); box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+        <?php else: ?>
+            <div style="width: 80px; height: 80px; background: #e2e8f0; border-radius: 50%; border: 3px solid var(--border); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                <span style="font-size: 30px; color: #94a3b8; font-weight: bold;"><?php echo strtoupper(substr($parent['first_name'],0,1)); ?></span>
+            </div>
+        <?php endif; ?>
+        
+        <div>
+            <h2 style="margin: 0; font-size: 22px; color: var(--text-main);">Welcome, <?php echo htmlspecialchars($parent['first_name'] . ' ' . $parent['last_name']); ?>.</h2>
+            <p style="margin: 5px 0 0; color: var(--text-muted); font-size: 14px;">Master Guardian Account</p>
+        </div>
+    </div>
     
     <?php
     $unpaid_alert = false;

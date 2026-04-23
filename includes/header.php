@@ -48,6 +48,7 @@ $page = basename($_SERVER['PHP_SELF']);
         <?php elseif ($role == 'parent'): ?>
             <li><a href="attendance.php" class="<?php echo $page == 'attendance.php' ? 'active' : ''; ?>">Child Attendance</a></li>
             <li><a href="grades.php" class="<?php echo $page == 'grades.php' ? 'active' : ''; ?>">Child Grades</a></li>
+            <li><a href="profile.php" class="<?php echo $page == 'profile.php' ? 'active' : ''; ?>">Edit Profile</a></li>
         <?php endif; ?>
     </ul>
 </div>
